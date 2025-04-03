@@ -1,0 +1,36 @@
+{% extends 'tasks/base.html' %}
+
+{% block title %}{{ task.title }}{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="card-title mb-0 {% if task.completed %}task-completed{% endif %}">{{ task.title }}</h5>
+            <span class="badge {% if task.completed %}bg-success{% else %}bg-warning{% endif %}">
+                {% if task.completed %}Completada{% else %}Pendiente{% endif %}
+            </span>
+        </div>
+        <div class="card-body">
+            {% if task.description %}
+                <p class="card-text">{{ task.description|linebreaks }}</p>
+            {% else %}
+                <p class="card-text text-muted">Sin descripción</p>
+            {% endif %}
+            
+            <p class="card-text">
+                <small class="text-muted">Creada: {{ task.created_at|date:"d/m/Y H:i" }}</small><br>
+                <small class="text-muted">Última actualización: {{ task.updated_at|date:"d/m/Y H:i" }}</small>
+            </p>
+        </div>
+        <div class="card-footer d-flex justify-content-between">
+            <a href="{% url 'task_list' %}" class="btn btn-secondary">Volver</a>
+            <div>
+                <a href="{% url 'task_complete' task.pk %}" class="btn {% if task.completed %}btn-secondary{% else %}btn-success{% endif %}">
+                    {% if task.completed %}Desmarcar{% else %}Completar{% endif %}
+                </a>
+                <a href="{% url 'task_update' task.pk %}" class="btn btn-info">Editar</a>
+                <a href="{% url 'task_delete' task.pk %}" class="btn btn-danger">Eliminar</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

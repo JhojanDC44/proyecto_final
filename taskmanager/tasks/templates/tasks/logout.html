@@ -1,0 +1,14 @@
+{% extends 'tasks/base.html' %}
+
+{% block title %}Sesión Cerrada{% endblock %}
+
+{% block content %}
+    <div class="alert alert-success">
+        <h4 class="alert-heading">¡Sesión cerrada exitosamente!</h4>
+        <p>Has cerrado sesión correctamente.</p>
+        <hr>
+        <p class="mb-0">
+            <a href="{% url 'login' %}" class="alert-link">Iniciar sesión nuevamente</a>
+        </p>
+    </div>
+{% endblock %}

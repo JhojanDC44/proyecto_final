@@ -1,0 +1,46 @@
+{% extends 'tasks/base.html' %}
+
+{% block title %}Mis Tareas{% endblock %}
+
+{% block content %}
+    <div class="row mb-4">
+        <div class="col">
+            <h1>Mis Tareas</h1>
+        </div>
+        <div class="col-auto">
+            <a href="{% url 'task_create' %}" class="btn btn-primary">Nueva Tarea</a>
+        </div>
+    </div>
+
+    {% if tasks %}
+        <div class="row">
+            <div class="col-md-8">
+                <div class="list-group">
+                    {% for task in tasks %}
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold {% if task.completed %}task-completed{% endif %}">
+                                    <a href="{% url 'task_detail' task.pk %}" class="text-decoration-none text-dark">
+                                        {{ task.title }}
+                                    </a>
+                                </div>
+                                <small class="text-muted">Creada: {{ task.created_at|date:"d/m/Y H:i" }}</small>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <a href="{% url 'task_complete' task.pk %}" class="btn btn-sm {% if task.completed %}btn-secondary{% else %}btn-success{% endif %}">
+                                    {% if task.completed %}Desmarcar{% else %}Completar{% endif %}
+                                </a>
+                                <a href="{% url 'task_update' task.pk %}" class="btn btn-sm btn-info">Editar</a>
+                                <a href="{% url 'task_delete' task.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            No tienes tareas pendientes. ¡Crea una nueva tarea!
+        </div>
+    {% endif %}
+{% endblock %}
